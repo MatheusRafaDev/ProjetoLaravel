@@ -16,3 +16,20 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Auth::routes();
+
+Route::middleware(['auth'])->group(function () {
+    Route::resource('transactions', TransactionController::class);
+});
+
+use App\Http\Controllers\TransactionController;
+
+Route::middleware(['auth'])->group(function () {
+    Route::resource('transactions', TransactionController::class);
+});
+
+Route::get('/dashboard', [TransactionController::class, 'dashboard'])
+     ->name('transactions.dashboard')
+     ->middleware('auth');
+
