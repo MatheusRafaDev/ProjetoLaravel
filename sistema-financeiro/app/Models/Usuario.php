@@ -32,9 +32,6 @@ class Usuario extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    /**
-     * Override the method to use 'senha' instead of 'password'.
-     */
     public function getAuthPassword()
     {
         return $this->senha;

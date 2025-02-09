@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
@@ -35,6 +36,8 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
+        dd($request->all()); 
+
         $validator = Validator::make($request->all(), [
             'nome' => 'required|string|max:100',
             'email' => 'required|string|email|max:100|unique:tb_usuarios',
@@ -47,6 +50,7 @@ class AuthController extends Controller
             return back()->withErrors($validator)->withInput();
         }
 
+
         $user = Usuario::create([
             'nome' => $request->nome,
             'email' => $request->email,
@@ -55,10 +59,12 @@ class AuthController extends Controller
             'endereco' => $request->endereco,
         ]);
 
+
         Auth::login($user);
 
-        return redirect()->intended('dashboard');
+         return redirect()->intended('dashboard');
     }
+
 
     public function logout(Request $request)
     {
