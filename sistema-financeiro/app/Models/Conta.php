@@ -11,7 +11,20 @@ class Conta extends Model
 
     protected $table = 'tb_contas';
     protected $primaryKey = 'id_conta';
-    protected $fillable = ['nome_conta', 'saldo', 'id_usuario'];
+    protected $fillable = [
+        'nome_conta', 
+        'saldo', 
+        'banco', 
+        'numero_agencia', 
+        'numero_conta', 
+        'tipo_conta',
+        'descricao', 
+        'data_abertura', 
+        'limite_credito', 
+        'taxa_juros', 
+        'status', 
+        'id_usuario'
+    ];
 
     public function usuario()
     {

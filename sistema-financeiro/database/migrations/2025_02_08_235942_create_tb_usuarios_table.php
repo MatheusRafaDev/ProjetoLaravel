@@ -6,11 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateTbUsuariosTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::create('tb_usuarios', function (Blueprint $table) {
@@ -18,16 +13,13 @@ class CreateTbUsuariosTable extends Migration
             $table->string('nome', 100);
             $table->string('email', 100)->unique();
             $table->string('senha', 255);
+            $table->string('telefone', 15)->nullable();
+            $table->string('endereco', 255)->nullable();
             $table->boolean('status')->default(true); // Ativo/Inativo
-            $table->timestamp('criado_em')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('tb_usuarios');

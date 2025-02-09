@@ -1,18 +1,30 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\ContaController;
-use App\Http\Controllers\MovimentacaoFinanceiraController;
-use App\Http\Controllers\TransferenciaController;
-use App\Http\Controllers\CategoriaTransacaoController;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('usuarios', UsuarioController::class);
-Route::resource('contas', ContaController::class);
-Route::resource('movimentacoes', MovimentacaoFinanceiraController::class);
-Route::resource('transferencias', TransferenciaController::class);
-Route::resource('categorias', CategoriaTransacaoController::class);
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    
+    Route::resource('usuarios', UsuarioController::class);
+    Route::resource('contas', ContaController::class);
+});
+
+Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
+Route::post('/register', [AuthController::class, 'register']);
+
+require __DIR__.'/auth.php';

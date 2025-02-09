@@ -20,7 +20,13 @@ class ContaController extends Controller
 
     public function store(Request $request)
     {
-        $conta = Conta::create($request->all());
+        $request->validate([
+            'nome_conta' => 'required',
+            'tipo_conta' => 'required',
+            'saldo' => 'required|numeric',
+        ]);
+
+        Conta::create($request->all());
         return redirect()->route('contas.index');
     }
 
@@ -32,6 +38,12 @@ class ContaController extends Controller
 
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'nome_conta' => 'required',
+            'tipo_conta' => 'required',
+            'saldo' => 'required|numeric',
+        ]);
+
         $conta = Conta::findOrFail($id);
         $conta->update($request->all());
         return redirect()->route('contas.index');
