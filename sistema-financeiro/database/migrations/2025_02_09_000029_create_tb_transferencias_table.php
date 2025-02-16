@@ -22,6 +22,9 @@ class CreateTbTransferenciasTable extends Migration
 
             $table->foreign('id_conta_origem')->references('id_conta')->on('tb_contas')->onDelete('cascade');
             $table->foreign('id_conta_destino')->references('id_conta')->on('tb_contas')->onDelete('cascade');
+
+            $table->timestamps();
+
         });
     }
 

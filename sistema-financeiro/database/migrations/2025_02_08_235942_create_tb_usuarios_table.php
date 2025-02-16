@@ -16,6 +16,7 @@ class CreateTbUsuariosTable extends Migration
             $table->string('telefone', 15)->nullable();
             $table->string('endereco', 255)->nullable();
             $table->boolean('status')->default(true); // Ativo/Inativo
+
             $table->timestamps();
         });
     }

@@ -15,38 +15,40 @@
                     <a href="{{ route('transferencias.create') }}" class="mt-4 py-2 px-4 bg-gray-600 text-white rounded-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50">
                         Adicionar Transferência
                     </a>
-                    <table class="min-w-full mt-6">
-                        <thead class="bg-gray-100 dark:bg-gray-700">
-                            <tr>
-                                <th class="px-4 py-2 text-left text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('Conta de Origem') }}</th>
-                                <th class="px-4 py-2 text-left text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('Conta de Destino') }}</th>
-                                <th class="px-4 py-2 text-left text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('Valor') }}</th>
-                                <th class="px-4 py-2 text-left text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('Data da Transferência') }}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($transferencias as $transferencia)
-                                <tr class="bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700">
-                                    <td class="border px-4 py-2 text-sm text-gray-900 dark:text-gray-100">
-                                        @foreach($contas as $conta)
-                                            @if($conta->id_conta == $transferencia->id_conta_origem)
-                                                {{ $conta->nome_conta }}
-                                            @endif
-                                        @endforeach
-                                    </td>
-                                    <td class="border px-4 py-2 text-sm text-gray-900 dark:text-gray-100">
-                                        @foreach($contas as $conta)
-                                            @if($conta->id_conta == $transferencia->id_conta_destino)
-                                                {{ $conta->nome_conta }}
-                                            @endif
-                                        @endforeach
-                                    </td>
-                                    <td class="border px-4 py-2 text-sm text-gray-900 dark:text-gray-100">{{ number_format($transferencia->valor, 2, ',', '.') }}</td>
-                                    <td class="border px-4 py-2 text-sm text-gray-900 dark:text-gray-100">{{ $transferencia->data_transferencia->format('d/m/Y') }}</td>
+                    <div class="relative overflow-x-auto mt-6">
+                        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                <tr>
+                                    <th class="px-4 py-2">Conta de Origem</th>
+                                    <th class="px-4 py-2">Conta de Destino</th>
+                                    <th class="px-4 py-2">Valor</th>
+                                    <th class="px-4 py-2">Data da Transferência</th>
+                                    <th class="px-4 py-2">Ações</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach ($transferencias as $transferencia)
+                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                        <td class="px-4 py-2">{{ optional($contas->firstWhere('id_conta', $transferencia->id_conta_origem))->nome_conta ?? 'N/A' }}</td>
+                                        <td class="px-4 py-2">{{ optional($contas->firstWhere('id_conta', $transferencia->id_conta_destino))->nome_conta ?? 'N/A' }}</td>
+                                        <td class="px-4 py-2">{{ number_format($transferencia->valor, 2, ',', '.') }}</td>
+                                        <td class="px-4 py-2">{{ $transferencia->data_transferencia->format('d/m/Y') }}</td>
+                                        <td class="px-4 py-2 flex space-x-2">
+                                            <a href="{{ route('transferencias.edit', $transferencia->id_transferencia) }}" class="text-blue-600 hover:underline">Editar</a>
+                                            <form action="{{ route('transferencias.destroy', $transferencia->id_transferencia) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir esta transferência?');">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="text-red-600 hover:underline">Excluir</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        @if($transferencias->isEmpty())
+                            <p class="mt-4 text-center text-gray-500 dark:text-gray-400">Nenhuma transferência encontrada.</p>
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>

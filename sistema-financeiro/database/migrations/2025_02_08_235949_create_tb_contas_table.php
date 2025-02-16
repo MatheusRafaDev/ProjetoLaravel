@@ -26,10 +26,8 @@ class CreateTbContasTable extends Migration
             $table->decimal('limite_credito', 15, 2)->nullable(); // Novo campo
             $table->decimal('taxa_juros', 5, 2)->nullable(); // Novo campo
             $table->boolean('status')->default(true); // Novo campo
-            $table->unsignedBigInteger('id_usuario');
             $table->timestamps();
 
-            $table->foreign('id_usuario')->references('id_usuario')->on('tb_usuarios')->onDelete('cascade');
         });
     }
 

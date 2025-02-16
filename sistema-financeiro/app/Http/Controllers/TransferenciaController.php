@@ -5,13 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\Transferencia;
 use App\Models\Conta;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class TransferenciaController extends Controller
 {
     public function index()
     {
         $transferencias = Transferencia::all();
-        return view('transferencias.index', compact('transferencias'));
+        $contas = Conta::all();  
+        return view('transferencias.index', compact('transferencias', 'contas'));
     }
 
     public function create()

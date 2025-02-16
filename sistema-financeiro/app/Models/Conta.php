@@ -11,6 +11,9 @@ class Conta extends Model
 
     protected $table = 'tb_contas';
     protected $primaryKey = 'id_conta';
+    protected $casts = ['data_abertura' => 'datetime',];
+
+    
     protected $fillable = [
         'nome_conta', 
         'saldo', 
@@ -19,17 +22,11 @@ class Conta extends Model
         'numero_conta', 
         'tipo_conta',
         'descricao', 
-        'data_abertura', 
         'limite_credito', 
         'taxa_juros', 
         'status', 
-        'id_usuario'
     ];
 
-    public function usuario()
-    {
-        return $this->belongsTo(Usuario::class, 'id_usuario');
-    }
 
     public function movimentacoes()
     {

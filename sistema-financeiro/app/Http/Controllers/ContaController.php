@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Conta;
 use Illuminate\Http\Request;
+use App\Models\Conta;
 
 class ContaController extends Controller
 {
@@ -21,13 +21,22 @@ class ContaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nome_conta' => 'required',
-            'tipo_conta' => 'required',
-            'saldo' => 'required|numeric',
+            'nome_conta' => 'required|string|max:255',
+            'saldo' => 'required|numeric|min:0',
+            'banco' => 'nullable|string|max:255',
+            'numero_agencia' => 'nullable|string|max:50',
+            'numero_conta' => 'nullable|string|max:50',
+            'tipo_conta' => 'nullable|string|max:50',
+            'descricao' => 'nullable|string',
+            'data_abertura' => 'nullable|date',
+            'limite_credito' => 'nullable|numeric|min:0',
+            'taxa_juros' => 'nullable|numeric|min:0',
+            'status' => 'required|boolean',
         ]);
 
         Conta::create($request->all());
-        return redirect()->route('contas.index');
+
+        return redirect()->route('contas.index')->with('success', 'Conta adicionada com sucesso.');
     }
 
     public function edit($id)
@@ -39,20 +48,22 @@ class ContaController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'nome_conta' => 'required',
-            'tipo_conta' => 'required',
-            'saldo' => 'required|numeric',
+            'nome_conta' => 'required|string|max:255',
+            'saldo' => 'required|numeric|min:0',
+            'banco' => 'nullable|string|max:255',
+            'numero_agencia' => 'nullable|string|max:50',
+            'numero_conta' => 'nullable|string|max:50',
+            'tipo_conta' => 'nullable|string|max:50',
+            'descricao' => 'nullable|string',
+            'data_abertura' => 'nullable|date',
+            'limite_credito' => 'nullable|numeric|min:0',
+            'taxa_juros' => 'nullable|numeric|min:0',
+            'status' => 'required|boolean',
         ]);
 
         $conta = Conta::findOrFail($id);
         $conta->update($request->all());
-        return redirect()->route('contas.index');
-    }
 
-    public function destroy($id)
-    {
-        $conta = Conta::findOrFail($id);
-        $conta->delete();
-        return redirect()->route('contas.index');
+        return redirect()->route('contas.index')->with('success', 'Conta atualizada com sucesso.');
     }
 }

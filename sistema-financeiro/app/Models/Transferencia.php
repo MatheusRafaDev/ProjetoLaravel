@@ -12,7 +12,8 @@ class Transferencia extends Model
     protected $table = 'tb_transferencias';
     protected $primaryKey = 'id_transferencia';
     protected $fillable = ['id_conta_origem', 'id_conta_destino', 'valor'];
-
+    protected $casts = [ 'data_transferencia' => 'datetime',];
+    
     public function contaOrigem()
     {
         return $this->belongsTo(Conta::class, 'id_conta_origem');

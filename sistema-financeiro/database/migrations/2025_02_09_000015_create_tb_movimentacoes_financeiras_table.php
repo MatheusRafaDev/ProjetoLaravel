@@ -20,8 +20,9 @@ class CreateTbMovimentacoesFinanceirasTable extends Migration
             $table->string('descricao', 255);
             $table->decimal('valor', 15, 2);
             $table->string('tipo_movimentacao', 20); // 'entrada' ou 'saída'
-            $table->timestamp('data_movimentacao')->default(DB::raw('CURRENT_TIMESTAMP'));
-
+            $table->date('data_movimentacao')->nullable(); 
+            $table->timestamps();
+            
             $table->foreign('id_conta')->references('id_conta')->on('tb_contas')->onDelete('cascade');
             $table->foreign('id_categoria')->references('id_categoria')->on('tb_categorias_transacoes')->onDelete('cascade');
         });

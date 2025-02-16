@@ -6,12 +6,18 @@ use App\Models\MovimentacaoFinanceira;
 use App\Models\Conta;
 use App\Models\CategoriaTransacao;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
 
 class MovimentacaoFinanceiraController extends Controller
 {
     public function index()
     {
-        $movimentacoes = MovimentacaoFinanceira::all();
+        $movimentacoes = MovimentacaoFinanceira::all()->map(function ($movimentacao) {
+            $movimentacao->data_movimentacao = Carbon::parse($movimentacao->data_movimentacao);
+            return $movimentacao;
+        });
+
         return view('movimentacoes.index', compact('movimentacoes'));
     }
 
@@ -33,7 +39,14 @@ class MovimentacaoFinanceiraController extends Controller
             'data_movimentacao' => 'required|date',
         ]);
 
-        MovimentacaoFinanceira::create($request->all());
+        MovimentacaoFinanceira::create([
+            'id_conta' => $request->id_conta,
+            'id_categoria' => $request->id_conta,
+            'descricao' => $request->id_categoria,
+            'valor' => $request->valor,
+            'tipo_movimentacao' => $request->tipo_movimentacao,
+            'data_movimentacao' => $request->data_movimentacao,
+        ]);
 
         return redirect()->route('movimentacoes.index');
     }

@@ -11,7 +11,9 @@ class MovimentacaoFinanceira extends Model
 
     protected $table = 'tb_movimentacoes_financeiras';
     protected $primaryKey = 'id_movimentacao';
-    protected $fillable = ['id_conta', 'id_categoria', 'descricao', 'valor', 'tipo_movimentacao'];
+    protected $fillable = ['id_conta', 'id_categoria', 'descricao', 'valor', 'tipo_movimentacao','data_movimentacao'];
+    protected $dates = ['data_movimentacao'];
+
 
     public function conta()
     {

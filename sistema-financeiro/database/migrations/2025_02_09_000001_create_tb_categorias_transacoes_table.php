@@ -17,7 +17,8 @@ class CreateTbCategoriasTransacoesTable extends Migration
             $table->id('id_categoria');
             $table->string('nome_categoria', 50);
             $table->string('tipo', 20); // 'receita' ou 'despesa'
-            $table->timestamp('criado_em')->default(DB::raw('CURRENT_TIMESTAMP'));
+            
+            $table->timestamps();
         });
     }
 
