@@ -30,6 +30,7 @@ class MovimentacaoFinanceiraController extends Controller
 
     public function store(Request $request)
     {
+       
         $request->validate([
             'id_conta' => 'required',
             'id_categoria' => 'required',
@@ -41,8 +42,8 @@ class MovimentacaoFinanceiraController extends Controller
 
         MovimentacaoFinanceira::create([
             'id_conta' => $request->id_conta,
-            'id_categoria' => $request->id_conta,
-            'descricao' => $request->id_categoria,
+            'id_categoria' => $request->id_categoria,
+            'descricao' => $request->descricao,
             'valor' => $request->valor,
             'tipo_movimentacao' => $request->tipo_movimentacao,
             'data_movimentacao' => $request->data_movimentacao,
